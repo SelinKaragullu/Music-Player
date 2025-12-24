@@ -1,4 +1,4 @@
-export const MusicPlayer= ()=> {
+export const Playlist= ()=> {
     return <div>
         
     </div>
