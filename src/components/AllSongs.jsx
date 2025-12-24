@@ -10,7 +10,7 @@ export const AllSongs = () => {
         <h2> All songs ({allSongs.length}) </h2>
         <div className="songs-grid">
             {allSongs.map((song, key) => (
-                <div key={key} className={`song-card ${currentTrackIndex===key? "active" : ""}`} onClick={()=> handlePlaySong(key)}>
+                <div key={key} className={`song-card ${currentTrackIndex===key? "active" : ""}`} onClick={()=> handlePlaySong(song,key)}>
                     <div className="song-info">
                         <h3 className="song-title">{song.title}</h3>
                         <p className="song-artist">{song.artist}</p>

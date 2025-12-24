@@ -1,7 +1,7 @@
 
-   import { useState } from "react";
-   
-   const songs = [
+import { useState } from "react";
+
+const songs = [
   {
     id: 1,
     title: "Keep You Away",
@@ -68,15 +68,26 @@ export const useMusic = () => {
 
 
   // states //
-    const [allSongs,setAllSongs] = useState(songs)
-     const [currentTrackIndex, setCurrentTrackIndex] = useState(0)
+  const [allSongs, setAllSongs] = useState(songs)
+  const [currentTrack, setCurrentTrack] = useState(songs[0]);
+  const [currentTrackIndex, setCurrentTrackIndex] = useState(0)
+  const [currentTime, setCurrentTime] = useState(0);
+  const [duration, setDuration] = useState(0);
 
-  //variables//
-const currentTrack = allSongs[currentTrackIndex]
 
-    const handlePlaySong = (index) => {
-setCurrentTrackIndex(index)
-    }
+  const handlePlaySong = (song, index) => {
+    setCurrentTrack(song)
+    setCurrentTrackIndex(index)
+  }
 
-    return {allSongs, handlePlaySong, currentTrackIndex}
+
+  const formatTime = (time) => {
+    if (isNaN(time) || time === undefined) return "0:00"
+    const minutes = Math.floor(time / 60)
+    const seconds = Math.floor(time % 60)
+    return `${minutes}:${seconds.toString().padStart(2, "0")}`
+  }
+
+
+  return { allSongs, handlePlaySong, currentTrack, currentTrackIndex, setCurrentTime, currentTime, formatTime,duration }
 }
