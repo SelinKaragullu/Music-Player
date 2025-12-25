@@ -89,5 +89,5 @@ export const useMusic = () => {
   }
 
 
-  return { allSongs, handlePlaySong, currentTrack, currentTrackIndex, setCurrentTime, currentTime, formatTime,duration }
+  return { allSongs, handlePlaySong, currentTrack, currentTrackIndex, setCurrentTime, currentTime, formatTime,duration,setDuration }
 }

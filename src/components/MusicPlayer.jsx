@@ -4,7 +4,7 @@ import {useRef, useEffect} from "react"
 
 
 export const MusicPlayer= ()=> {
-    const {currentTrack,currentTime, formatTime,duration,setDuration} = useMusic()
+    const {currentTrack,currentTime, formatTime,duration,setDuration,setCurrentTime} = useMusic()
 
 const audioRef = useRef(null)
 
@@ -27,7 +27,7 @@ const handleEnded = () => {}
         audio.removeEventListener("loadedmetadata", handleLoadedMetadata)
 
     }
-},[setDuration, setCurrentTime, currentTrack])
+},[currentTrack])
 
     return <div className="music-player">
         <audio ref={audioRef} preload="metadata" crossOrigin="anonymous"/>
