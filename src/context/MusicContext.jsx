@@ -1,5 +1,7 @@
+import {createContext, useState} from 'react'
 
-import { useState } from "react";
+
+const MusicContext = createContext()
 
 const songs = [
   {
@@ -64,7 +66,7 @@ const songs = [
 
 
 
-export const useMusic = () => {
+export const MusicProvider = ({children}) => {
 
 
   // states //
@@ -73,11 +75,30 @@ export const useMusic = () => {
   const [currentTrackIndex, setCurrentTrackIndex] = useState(0)
   const [currentTime, setCurrentTime] = useState(0);
   const [duration, setDuration] = useState(0);
+  const [isPlaying,setIsPlaying] = useState(false)
 
 
   const handlePlaySong = (song, index) => {
     setCurrentTrack(song)
     setCurrentTrackIndex(index)
+    setIsPlaying(false)
+  }
+
+  const nextTrack = () => {
+    setCurrentTrackIndex((prev)=>{const nextIndex = (prev+1) % allSongs.length
+      setCurrentTrack(allSongs[nextIndex])
+      return nextIndex
+    })
+    setIsPlaying(false)
+  }
+
+
+  const prevTrack = () => {
+    setCurrentTrackIndex((prev)=>{const prevIndex = prev===0  ? allSongs.length-1 : prev-1
+      setCurrentTrack(allSongs[prevIndex])
+      return prevIndex
+    })
+     setIsPlaying(false)
   }
 
 
@@ -87,7 +108,14 @@ export const useMusic = () => {
     const seconds = Math.floor(time % 60)
     return `${minutes}:${seconds.toString().padStart(2, "0")}`
   }
+  const play = () => setIsPlaying(true);
+  const pause = () => setIsPlaying(false);
 
+  return (
+        <MusicContext.Provider value={{    
+    allSongs, handlePlaySong, currentTrack, currentTrackIndex, setCurrentTime, currentTime, formatTime,duration,setDuration, nextTrack, prevTrack,play, pause, isPlaying}}>
+   
+    </MusicContext.Provider>
+)
 
-  return { allSongs, handlePlaySong, currentTrack, currentTrackIndex, setCurrentTime, currentTime, formatTime,duration,setDuration }
 }

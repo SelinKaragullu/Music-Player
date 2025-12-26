@@ -15,6 +15,7 @@ function App() {
 
   return (
     <BrowserRouter>
+    <MusicProvider>
       <div className="app">
         <main className="app-main">
           <div className="player-section">
@@ -28,6 +29,7 @@ function App() {
           </div>
         </main>
       </div>
+      </MusicProvider>
     </BrowserRouter>
   )
 }

@@ -3,7 +3,7 @@ import { useMusic } from "../hooks/useMusic";
 
 
 export const AllSongs = () => {
-    const { allSongs,handlePlaySong,currentTrackIndex } = useMusic()
+    const { allSongs,handlePlaySong,currentTrackIndex } = useContext(MusicContext)
 
     return (
     <div className="all-songs">
