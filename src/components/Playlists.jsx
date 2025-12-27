@@ -1,20 +1,20 @@
 
 import React from 'react'
-import {useState} from 'react'
+import { useState } from 'react'
 
 export const Playlists = () => {
-const [newPlaylistName,setNewPlaylistName] = useState("")
+  const [newPlaylistName, setNewPlaylistName] = useState("")
 
-  const {playlists,createPlaylist} = useContext(MusicContext)
+  const { playlists, createPlaylist } = useContext(MusicContext)
 
-const handleCreatePlaylist = () => {
-if(newPlaylistName.trim()) {
-    createPlaylist(newPlaylistName.trim())
-    setNewPlaylistName("")
-}
-}
-    return (
-          <div className="playlists">
+  const handleCreatePlaylist = () => {
+    if (newPlaylistName.trim()) {
+      createPlaylist(newPlaylistName.trim())
+      setNewPlaylistName("")
+    }
+  }
+  return (
+    <div className="playlists">
       <h2>Playlists</h2>
 
       {/* Create New Playlist */}
@@ -25,17 +25,29 @@ if(newPlaylistName.trim()) {
             type="text"
             placeholder="Playlist name..."
             className="playlist-input"
-           onChange={(e) => setNewPlaylistName(e.target.value)}
-           value={newPlaylistName}
-                  />
+            onChange={(e) => setNewPlaylistName(e.target.value)}
+            value={newPlaylistName}
+          />
           <button className="create-btn" onClick={handleCreatePlaylist}>
             Create
           </button>
         </div>
-      </div><div className="playlists-list">
+      </div>
+      {/* Playlist List */}
+      <div className="playlists-list">
         {playlists.length === 0 ? (
           <p className="empty-message">No playlists created yet</p>
-        ) : (
-       </div>
-    )
+        ) : (playlists.map((playlist, key) =>
+          <div className="playlist-item" key={key}>
+            <div className="playlist-header">
+              <h3>{playlist.name}</h3>
+              <div className="playlist-actions">
+                <button className="delete-playlist-btn">Delete</button>
+              </div>
+            </div>
+          </div>
+        ))}
+      </div>
+    </div>
+  )
 }
