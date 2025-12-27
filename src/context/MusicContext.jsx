@@ -1,7 +1,6 @@
-import { createContext, useState } from 'react'
+import React, { createContext, useState, useEffect } from 'react';
 
-
-const MusicContext = createContext()
+export const MusicContext = createContext();
 
 const songs = [
   {
@@ -60,79 +59,97 @@ const songs = [
     url: "/songs/Momentary Bliss.wav",
     duration: "2:45",
   },
-]
-
-
-
-
+];
 
 export const MusicProvider = ({ children }) => {
-
-
-  // states //
-  const [allSongs, setAllSongs] = useState(songs)
+  const [allSongs, setAllSongs] = useState(songs);
   const [currentTrack, setCurrentTrack] = useState(songs[0]);
-  const [currentTrackIndex, setCurrentTrackIndex] = useState(0)
+  const [currentTrackIndex, setCurrentTrackIndex] = useState(0);
   const [currentTime, setCurrentTime] = useState(0);
   const [duration, setDuration] = useState(0);
-  const [isPlaying, setIsPlaying] = useState(false)
-  const [playlists, setPlaylists] = useState([])
+  const [isPlaying, setIsPlaying] = useState(false);
+  const [playlists, setPlaylists] = useState([]);
+
+   useEffect(() => {
+    const saved = localStorage.getItem("playlists");
+    if (saved) {
+      setPlaylists(JSON.parse(saved));
+    }
+  }, []);
+
+ 
+  useEffect(() => {
+    localStorage.setItem("playlists", JSON.stringify(playlists));
+  }, [playlists]);
+
 
   const handlePlaySong = (song, index) => {
-    setCurrentTrack(song)
-    setCurrentTrackIndex(index)
-    setIsPlaying(false)
-  }
+    setCurrentTrack(song);
+    setCurrentTrackIndex(index);
+    setIsPlaying(true);
+  };
 
   const nextTrack = () => {
     setCurrentTrackIndex((prev) => {
-      const nextIndex = (prev + 1) % allSongs.length
-      setCurrentTrack(allSongs[nextIndex])
-      return nextIndex
-    })
-    setIsPlaying(false)
-  }
-
+      const nextIndex = (prev + 1) % allSongs.length;
+      setCurrentTrack(allSongs[nextIndex]);
+      return nextIndex;
+    });
+    setIsPlaying(true);
+  };
 
   const prevTrack = () => {
     setCurrentTrackIndex((prev) => {
-      const prevIndex = prev === 0 ? allSongs.length - 1 : prev - 1
-      setCurrentTrack(allSongs[prevIndex])
-      return prevIndex
-    })
-    setIsPlaying(false)
-  }
-
+      const prevIndex = prev === 0 ? allSongs.length - 1 : prev - 1;
+      setCurrentTrack(allSongs[prevIndex]);
+      return prevIndex;
+    });
+    setIsPlaying(true);
+  };
 
   const formatTime = (time) => {
-    if (isNaN(time) || time === undefined) return "0:00"
-    const minutes = Math.floor(time / 60)
-    const seconds = Math.floor(time % 60)
-    return `${minutes}:${seconds.toString().padStart(2, "0")}`
-  }
-
+    if (isNaN(time) || time === undefined) return "0:00";
+    const minutes = Math.floor(time / 60);
+    const seconds = Math.floor(time % 60);
+    return `${minutes}:${seconds.toString().padStart(2, "0")}`;
+  };
 
   const createPlaylist = (name) => {
-    const newPlaylist= {
+    const newPlaylist = {
       id: Date.now(),
       name: name,
-      songs: []
-     }
-
-    setPlaylists(prevList=> [...prevList, newPlaylist]) 
-  }
-
+      songs: [],
+    };
+    setPlaylists((prevList) => [...prevList, newPlaylist]);
+  };
+  
   const play = () => setIsPlaying(true);
   const pause = () => setIsPlaying(false);
 
   return (
-    <MusicContext.Provider value={{
-      allSongs, handlePlaySong, currentTrack, currentTrackIndex, setCurrentTime, currentTime, formatTime, duration, setDuration, nextTrack, prevTrack, play, pause, isPlaying, playlists, createPlaylist
-    }}>
-
+    <MusicContext.Provider
+      value={{
+        allSongs,
+        handlePlaySong,
+        currentTrack,
+        currentTrackIndex,
+        setCurrentTime,
+        currentTime,
+        formatTime,
+        duration,
+        setDuration,
+        nextTrack,
+        prevTrack,
+        play,
+        pause,
+        isPlaying,
+        playlists,
+        createPlaylist,
+        setCurrentTrack, 
+        setIsPlaying   
+      }}
+    >
+         {children}
     </MusicContext.Provider>
-  )
-
-}
-
-
+  );
+};

@@ -1,5 +1,5 @@
-
-import { useMusic } from "../hooks/useMusic";
+import { useContext } from "react"
+import { MusicContext } from "../context/MusicContext"
 
 
 export const AllSongs = () => {

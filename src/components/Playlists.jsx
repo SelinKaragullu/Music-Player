@@ -1,9 +1,14 @@
 
 import React from 'react'
-import { useState } from 'react'
+import { useState, useContext } from 'react'
+import { MusicContext } from "../context/MusicContext";
+
 
 export const Playlists = () => {
   const [newPlaylistName, setNewPlaylistName] = useState("")
+  const [selectedPlaylist, setSelectedPlaylist] = useState(null)
+  const [searchQuery, setSearchQuery] = useState("")
+  const [showDropdown, setShowDropdown] = useState(false)
 
   const { playlists, createPlaylist } = useContext(MusicContext)
 
@@ -28,9 +33,7 @@ export const Playlists = () => {
             onChange={(e) => setNewPlaylistName(e.target.value)}
             value={newPlaylistName}
           />
-          <button className="create-btn" onClick={handleCreatePlaylist}>
-            Create
-          </button>
+          <button className="create-btn" onClick={handleCreatePlaylist}> Create </button>
         </div>
       </div>
       {/* Playlist List */}
@@ -45,9 +48,31 @@ export const Playlists = () => {
                 <button className="delete-playlist-btn">Delete</button>
               </div>
             </div>
+
+            {/* Add Song Search */}
+            <div className="add-song-section">
+              <div className="search-container">
+                <input 
+                type="text" 
+                placeholder="Search songs to add..."
+                value={selectedPlaylist?.id === playlist.id ? searchQuery : ""} 
+                onChange={(e) => {
+                  setSearchQuery(e.target.value)
+                  setSelectedPlaylist(playlist)
+                  setShowDropdown(e.target.value.length>0 && true)
+                }}
+                onFocus={()=>{
+                  setSelectedPlaylist(playlist)
+                  setShowDropdown(e.target.value.length>0)
+                }}
+                className= "song-search-input"
+                />
+              </div>
+            </div>
           </div>
         ))}
       </div>
     </div>
   )
 }
+
