@@ -10,8 +10,18 @@ export const Playlists = () => {
   const [searchQuery, setSearchQuery] = useState("")
   const [showDropdown, setShowDropdown] = useState(false)
 
-  const { playlists, createPlaylist } = useContext(MusicContext)
+  const { playlists, createPlaylist, allSongs } = useContext(MusicContext)
 
+const filteredSongs = allSongs.filter((song)=>{
+  const matches = 
+  song.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
+  song.artist.toLowerCase().includes(searchQuery.toLowerCase())
+
+  const isAlreadyInPlaylist = selectedPlaylist?.songs.some((playlistSong)=>playlistSong.id === song.id)
+
+return !isAlreadyInPlaylist && matches 
+
+})
   const handleCreatePlaylist = () => {
     if (newPlaylistName.trim()) {
       createPlaylist(newPlaylistName.trim())
@@ -67,6 +77,12 @@ export const Playlists = () => {
                 }}
                 className= "song-search-input"
                 />
+
+    {selectedPlaylist?.id===playlist.id && showDropDown && (
+      <div className="show-dropdown">
+
+      </div>
+    )}
               </div>
             </div>
           </div>
