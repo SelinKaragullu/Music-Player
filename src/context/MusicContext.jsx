@@ -120,9 +120,23 @@ export const MusicProvider = ({ children }) => {
       name: name,
       songs: [],
     };
-    setPlaylists((prevList) => [...prevList, newPlaylist]);
-  };
-  
+    setPlaylists((prevList) => [...prevList, newPlaylist])
+  }
+
+const deletePlaylist = (playlistId) => {
+setPlaylists((prev) => 
+  prev.filter((playlist) => playlist.id !== playlistId))
+}
+
+const addSongToPlaylist = (playlistId, song) => {
+  setPlaylists((prev) => prev.map((playlist) => {
+    if(playlist.id === playlistId) {return {...playlist,songs:[...playlist.songs,song]}}
+    else {
+      return playlist
+    }
+  })
+)}
+
   const play = () => setIsPlaying(true);
   const pause = () => setIsPlaying(false);
 
@@ -146,7 +160,9 @@ export const MusicProvider = ({ children }) => {
         playlists,
         createPlaylist,
         setCurrentTrack, 
-        setIsPlaying   
+        setIsPlaying,
+        addSongToPlaylist,
+        setCurrentTrack  
       }}
     >
          {children}

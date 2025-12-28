@@ -10,7 +10,7 @@ export const Playlists = () => {
   const [searchQuery, setSearchQuery] = useState("")
   const [showDropdown, setShowDropdown] = useState(false)
 
-  const { playlists, createPlaylist, allSongs } = useContext(MusicContext)
+  const { playlists, createPlaylist, allSongs,addSongToPlaylist, currentTrackIndex,handlePlaySong, deletePlaylist } = useContext(MusicContext)
 
 const filteredSongs = allSongs.filter((song)=>{
   const matches = 
@@ -20,14 +20,36 @@ const filteredSongs = allSongs.filter((song)=>{
   const isAlreadyInPlaylist = selectedPlaylist?.songs.some((playlistSong)=>playlistSong.id === song.id)
 
 return !isAlreadyInPlaylist && matches 
-
 })
+
   const handleCreatePlaylist = () => {
     if (newPlaylistName.trim()) {
       createPlaylist(newPlaylistName.trim())
       setNewPlaylistName("")
     }
   }
+
+  const handleAddSong = () => {
+if(selectedPlaylist) {
+addSongToPlaylist(selectedPlaylist.id,song)
+setSearchQuery("")
+setShowDropdown(false)
+}
+ }
+
+ const handlePlayFromPlaylist = (song) => {
+    const globalIndex = allSongs.findIndex((s) => s.id === song.id)
+    handlePlaySong(song, globalIndex)
+  }
+
+
+  const deletePlaylistConfirmation = (playlist) => {
+    if(window.confirm(`Are you sure you want to delete 
+      "${playlist.name}"?`)) {
+        deletePlaylist(playlist.id)
+      }
+    }
+
   return (
     <div className="playlists">
       <h2>Playlists</h2>
@@ -55,7 +77,8 @@ return !isAlreadyInPlaylist && matches
             <div className="playlist-header">
               <h3>{playlist.name}</h3>
               <div className="playlist-actions">
-                <button className="delete-playlist-btn">Delete</button>
+                <button className="delete-playlist-btn"
+                onClick={()=>deletePlaylistConfirmation(playlist)}>Delete</button>
               </div>
             </div>
 
@@ -71,7 +94,7 @@ return !isAlreadyInPlaylist && matches
                   setSelectedPlaylist(playlist)
                   setShowDropdown(e.target.value.length>0 && true)
                 }}
-                onFocus={()=>{
+                onFocus={(e)=>{
                   setSelectedPlaylist(playlist)
                   setShowDropdown(e.target.value.length>0)
                 }}
@@ -80,15 +103,47 @@ return !isAlreadyInPlaylist && matches
 
     {selectedPlaylist?.id===playlist.id && showDropDown && (
       <div className="show-dropdown">
-
+{filteredSongs.length === 0 ? (<div className="dropdown-item no-results">No songs found</div>
+) : (
+  filteredSongs.slice(0,5).map((song,key) => (<div key={key} className="dropdown-item" onClick={() => handleAddSong(song)}>
+  <span className="song-title">{song.title}</span>
+  <span className="song-artist">{song.artist}</span>
+</div>)))}
       </div>
     )}
               </div>
             </div>
-          </div>
-        ))}
+
+
+
+    <div className="playlist-songs">
+                {playlist.songs.length === 0 ? (
+                  <p className="empty-playlist">No songs in this playlist</p>
+                ) : (
+                  playlist.songs.map((song, key) => (
+                    <div
+                      key={key}
+                      className={`playlist-song ${
+                        currentTrackIndex ===
+                        allSongs.findIndex((s) => s.id === song.id)
+                          ? "active"
+                          : ""
+                      }`}
+                      onClick={() => handlePlayFromPlaylist(song,)}
+                    >
+     <div className="song-info">
+                        <span className="song-title">{song.title}</span>
+                        <span className="song-artist">{song.artist}</span>
+                      </div>
+                      <span className="song-duration">{song.duration}</span>
+                    </div>
+                  ))
+                )}
+              </div>
+            </div>
+          ))
+        )}
       </div>
     </div>
   )
 }
-
