@@ -71,12 +71,12 @@ export const MusicProvider = ({ children }) => {
 
 
 
-const [playlists, setPlaylists] = useState(() => {
+  const [playlists, setPlaylists] = useState(() => {
     const saved = localStorage.getItem("musicPlayerPlaylists");
     return saved ? JSON.parse(saved) : [];
   });
 
- 
+
   useEffect(() => {
     localStorage.setItem("musicPlayerPlaylists", JSON.stringify(playlists));
   }, [playlists]);
@@ -121,19 +121,20 @@ const [playlists, setPlaylists] = useState(() => {
     setPlaylists((prevList) => [...prevList, newPlaylist])
   }
 
-const deletePlaylist = (playlistId) => {
-setPlaylists((prev) => 
-  prev.filter((playlist) => playlist.id !== playlistId))
-}
+  const deletePlaylist = (playlistId) => {
+    setPlaylists((prev) =>
+      prev.filter((playlist) => playlist.id !== playlistId))
+  }
 
-const addSongToPlaylist = (playlistId, song) => {
-  setPlaylists((prev) => prev.map((playlist) => {
-    if(playlist.id === playlistId) {return {...playlist,songs:[...playlist.songs,song]}}
-    else {
-      return playlist
-    }
-  })
-)}
+  const addSongToPlaylist = (playlistId, song) => {
+    setPlaylists((prev) => prev.map((playlist) => {
+      if (playlist.id === playlistId) { return { ...playlist, songs: [...playlist.songs, song] } }
+      else {
+        return playlist
+      }
+    })
+    )
+  }
 
   const play = () => setIsPlaying(true);
   const pause = () => setIsPlaying(false);
@@ -158,13 +159,13 @@ const addSongToPlaylist = (playlistId, song) => {
         playlists,
         createPlaylist,
         deletePlaylist,
-        setCurrentTrack, 
+        setCurrentTrack,
         setIsPlaying,
         addSongToPlaylist,
-        setCurrentTrack  
+        setCurrentTrack
       }}
     >
-         {children}
+      {children}
     </MusicContext.Provider>
   );
 };

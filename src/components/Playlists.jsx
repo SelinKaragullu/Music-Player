@@ -10,17 +10,17 @@ export const Playlists = () => {
   const [searchQuery, setSearchQuery] = useState("")
   const [showDropdown, setShowDropdown] = useState(false)
 
-  const { playlists, createPlaylist, allSongs,addSongToPlaylist, currentTrackIndex,handlePlaySong, deletePlaylist } = useContext(MusicContext)
+  const { playlists, createPlaylist, allSongs, addSongToPlaylist, currentTrackIndex, handlePlaySong, deletePlaylist } = useContext(MusicContext)
 
-const filteredSongs = allSongs.filter((song)=>{
-  const matches = 
-  song.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
-  song.artist.toLowerCase().includes(searchQuery.toLowerCase())
+  const filteredSongs = allSongs.filter((song) => {
+    const matches =
+      song.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
+      song.artist.toLowerCase().includes(searchQuery.toLowerCase())
 
-  const isAlreadyInPlaylist = selectedPlaylist?.songs.some((playlistSong)=>playlistSong.id === song.id)
+    const isAlreadyInPlaylist = selectedPlaylist?.songs.some((playlistSong) => playlistSong.id === song.id)
 
-return !isAlreadyInPlaylist && matches 
-})
+    return !isAlreadyInPlaylist && matches
+  })
 
   const handleCreatePlaylist = () => {
     if (newPlaylistName.trim()) {
@@ -30,25 +30,25 @@ return !isAlreadyInPlaylist && matches
   }
 
   const handleAddSong = (song) => {
-if(selectedPlaylist) {
-addSongToPlaylist(selectedPlaylist.id,song)
-setSearchQuery("")
-setShowDropdown(false)
-}
- }
+    if (selectedPlaylist) {
+      addSongToPlaylist(selectedPlaylist.id, song)
+      setSearchQuery("")
+      setShowDropdown(false)
+    }
+  }
 
- const handlePlayFromPlaylist = (song) => {
+  const handlePlayFromPlaylist = (song) => {
     const globalIndex = allSongs.findIndex((s) => s.id === song.id)
     handlePlaySong(song, globalIndex)
   }
 
 
   const deletePlaylistConfirmation = (playlist) => {
-    if(window.confirm(`Are you sure you want to delete 
+    if (window.confirm(`Are you sure you want to delete 
       "${playlist.name}"?`)) {
-        deletePlaylist(playlist.id)
-      }
+      deletePlaylist(playlist.id)
     }
+  }
 
   return (
     <div className="playlists">
@@ -131,22 +131,21 @@ setShowDropdown(false)
                 </div>
               </div>
 
-    <div className="playlist-songs">
+              <div className="playlist-songs">
                 {playlist.songs.length === 0 ? (
                   <p className="empty-playlist">No songs in this playlist</p>
                 ) : (
                   playlist.songs.map((song, key) => (
                     <div
                       key={key}
-                      className={`playlist-song ${
-                        currentTrackIndex ===
-                        allSongs.findIndex((s) => s.id === song.id)
+                      className={`playlist-song ${currentTrackIndex ===
+                          allSongs.findIndex((s) => s.id === song.id)
                           ? "active"
                           : ""
-                      }`}
+                        }`}
                       onClick={() => handlePlayFromPlaylist(song,)}
                     >
-     <div className="song-info">
+                      <div className="song-info">
                         <span className="song-title">{song.title}</span>
                         <span className="song-artist">{song.artist}</span>
                       </div>
