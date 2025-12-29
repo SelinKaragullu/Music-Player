@@ -29,7 +29,7 @@ return !isAlreadyInPlaylist && matches
     }
   }
 
-  const handleAddSong = () => {
+  const handleAddSong = (song) => {
 if(selectedPlaylist) {
 addSongToPlaylist(selectedPlaylist.id,song)
 setSearchQuery("")
@@ -68,53 +68,68 @@ setShowDropdown(false)
           <button className="create-btn" onClick={handleCreatePlaylist}> Create </button>
         </div>
       </div>
-      {/* Playlist List */}
+      {/* Playlists List */}
       <div className="playlists-list">
         {playlists.length === 0 ? (
           <p className="empty-message">No playlists created yet</p>
-        ) : (playlists.map((playlist, key) =>
-          <div className="playlist-item" key={key}>
-            <div className="playlist-header">
-              <h3>{playlist.name}</h3>
-              <div className="playlist-actions">
-                <button className="delete-playlist-btn"
-                onClick={()=>deletePlaylistConfirmation(playlist)}>Delete</button>
+        ) : (
+          playlists.map((playlist, key) => (
+            <div className="playlist-item" key={key}>
+              <div className="playlist-header">
+                <h3>{playlist.name}</h3>
+                <div className="playlist-actions">
+                  <button
+                    className="delete-playlist-btn"
+                    onClick={() => deletePlaylistConfirmation(playlist)}
+                  >
+                    Delete
+                  </button>
+                </div>
               </div>
-            </div>
 
-            {/* Add Song Search */}
-            <div className="add-song-section">
-              <div className="search-container">
-                <input 
-                type="text" 
-                placeholder="Search songs to add..."
-                value={selectedPlaylist?.id === playlist.id ? searchQuery : ""} 
-                onChange={(e) => {
-                  setSearchQuery(e.target.value)
-                  setSelectedPlaylist(playlist)
-                  setShowDropdown(e.target.value.length>0 && true)
-                }}
-                onFocus={(e)=>{
-                  setSelectedPlaylist(playlist)
-                  setShowDropdown(e.target.value.length>0)
-                }}
-                className= "song-search-input"
-                />
+              {/* Add Song Search */}
+              <div className="add-song-section">
+                <div className="search-container">
+                  <input
+                    type="text"
+                    placeholder="Search songs to add..."
+                    value={
+                      selectedPlaylist?.id === playlist.id ? searchQuery : ""
+                    }
+                    onChange={(e) => {
+                      setSearchQuery(e.target.value);
+                      setSelectedPlaylist(playlist);
+                      setShowDropdown(e.target.value.length > 0);
+                    }}
+                    onFocus={(e) => {
+                      setSelectedPlaylist(playlist);
+                      setShowDropdown(e.target.value.length > 0);
+                    }}
+                    className="song-search-input"
+                  />
 
-    {selectedPlaylist?.id===playlist.id && showDropDown && (
-      <div className="show-dropdown">
-{filteredSongs.length === 0 ? (<div className="dropdown-item no-results">No songs found</div>
-) : (
-  filteredSongs.slice(0,5).map((song,key) => (<div key={key} className="dropdown-item" onClick={() => handleAddSong(song)}>
-  <span className="song-title">{song.title}</span>
-  <span className="song-artist">{song.artist}</span>
-</div>)))}
-      </div>
-    )}
+                  {selectedPlaylist?.id === playlist.id && showDropdown && (
+                    <div className="song-dropdown">
+                      {filteredSongs.length === 0 ? (
+                        <div className="dropdown-item no-results">
+                          No songs found
+                        </div>
+                      ) : (
+                        filteredSongs.slice(0, 5).map((song, key) => (
+                          <div
+                            key={key}
+                            className="dropdown-item"
+                            onClick={() => handleAddSong(song)}
+                          >
+                            <span className="song-title">{song.title}</span>
+                            <span className="song-artist">{song.artist}</span>
+                          </div>
+                        ))
+                      )}
+                    </div>
+                  )}
+                </div>
               </div>
-            </div>
-
-
 
     <div className="playlist-songs">
                 {playlist.songs.length === 0 ? (

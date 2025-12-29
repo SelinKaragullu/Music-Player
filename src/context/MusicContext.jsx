@@ -68,35 +68,33 @@ export const MusicProvider = ({ children }) => {
   const [currentTime, setCurrentTime] = useState(0);
   const [duration, setDuration] = useState(0);
   const [isPlaying, setIsPlaying] = useState(false);
-  const [playlists, setPlaylists] = useState([]);
 
-   useEffect(() => {
-    const saved = localStorage.getItem("playlists");
-    if (saved) {
-      setPlaylists(JSON.parse(saved));
-    }
-  }, []);
+
+
+const [playlists, setPlaylists] = useState(() => {
+    const saved = localStorage.getItem("musicPlayerPlaylists");
+    return saved ? JSON.parse(saved) : [];
+  });
 
  
   useEffect(() => {
-    localStorage.setItem("playlists", JSON.stringify(playlists));
+    localStorage.setItem("musicPlayerPlaylists", JSON.stringify(playlists));
   }, [playlists]);
 
-
   const handlePlaySong = (song, index) => {
-    setCurrentTrack(song);
-    setCurrentTrackIndex(index);
-    setIsPlaying(true);
+    setCurrentTrack(song)
+    setCurrentTrackIndex(index)
+    setIsPlaying(true)
   };
 
   const nextTrack = () => {
     setCurrentTrackIndex((prev) => {
       const nextIndex = (prev + 1) % allSongs.length;
-      setCurrentTrack(allSongs[nextIndex]);
-      return nextIndex;
+      setCurrentTrack(allSongs[nextIndex])
+      return nextIndex
     });
-    setIsPlaying(true);
-  };
+    setIsPlaying(true)
+  }
 
   const prevTrack = () => {
     setCurrentTrackIndex((prev) => {
@@ -159,6 +157,7 @@ const addSongToPlaylist = (playlistId, song) => {
         isPlaying,
         playlists,
         createPlaylist,
+        deletePlaylist,
         setCurrentTrack, 
         setIsPlaying,
         addSongToPlaylist,
