@@ -1,33 +1,39 @@
 # 🎵 React Music Player
 
-A modern, responsive, and aesthetic web-based music player application. Users can browse a library of songs, play/pause tracks, and skip between songs with a smooth user interface.
+A modern, responsive, and feature-rich web-based music player application. Users can browse a complete song library, create custom playlists, and enjoy a seamless playback experience with client-side routing.
 
 [🎧 **Live Demo**](https://music-play-err.netlify.app/)
 
 ![Music Player Demo](./screenshot.gif)
+
 ## ✨ Features
 
-* **Playback Controls:** Play, Pause, Skip Forward, and Skip Backward.
-* **Song Library:** A toggleable library to select and switch between different tracks.
-* **Real-time Progress Bar:** Visual indicator of song duration and current time (drag to seek).
-* **Responsive UI:** Optimized for both mobile and desktop views.
-* **Auto-Play:** Automatically plays the next song when the current one ends.
+* **Global Music Context:** Seamless state management allowing music to play uninterrupted while navigating pages.
+* **Custom Playlists:** Users can **create**, **name**, and **delete** their own playlists.
+* **Smart Search & Add:** Dynamic search functionality to find and add specific songs to playlists instantly.
+* **Playback Controls:** Play, Pause, Next, Previous, and a draggable progress bar.
+* **Page Routing:** Dedicated views for "All Songs" and "Playlists" managed via React Router.
+* **Auto-Play:** Automatically plays the next track when the current song ends.
 
 ## 🛠 Built With
 
 * **React** (Functional Components & Hooks)
-* **HTML5 Audio API** (Managed via React Refs)
-* **SASS / CSS3** (For styling and animations)
-* **FontAwesome** (For icons)
-* **UUID** (For unique ID generation)
+    * `useContext`: For global state management (MusicContext).
+    * `useRef`: To directly manipulate the HTML5 Audio element.
+    * `useEffect`: For handling side effects like audio events and progress synchronization.
+    * `useState`: For local UI states (forms, search inputs).
+* **React Router** (`react-router-dom`): For smooth navigation between the Library and Playlist views without reloading the page.
+* **React Context API**: Replaces prop-drilling to manage current track, playing status, and playlist data globally.
+* **HTML5 Audio API**: The core engine behind the music playback, managed via React Refs.
+* **CSS3**: Custom styling for a responsive and aesthetic layout.
 
 ## 🧠 Challenges & Learnings
 
-Building this project improved my understanding of:
-* **`useRef` Hook:** Used to directly reference and control the HTML `<audio>` element for play/pause functionality.
-* **State Lifting:** Managing the current song state in the parent component (`App.js`) to share data between the `Player` and `Library` components.
-* **Synchronizing State:** Keeping the UI (progress bar) in sync with the actual audio current time.
-* **CSS Animations:** Rotating animations for the album art when music is playing.
+Building this project significantly improved my React architecture skills:
+* **Context API Implementation:** I moved away from "Prop Drilling" and implemented a `MusicContext` to make the player state (current song, isPlaying) accessible throughout the entire app.
+* **DOM Manipulation in React:** Learned to bridge the gap between React's virtual DOM and the browser's actual `<audio>` tag using `useRef` to handle play/pause and time updates programmatically.
+* **Complex Array Manipulation:** Implemented logic to filter the `allSongs` array based on user search input and prevent duplicate songs from being added to playlists.
+* **Routing logic:** Used `react-router-dom` to highlight active navigation links and render different views while keeping the `MusicPlayer` component persistent at the bottom.
 
 ## 💻 Installation
 
