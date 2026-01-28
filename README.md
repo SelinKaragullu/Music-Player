@@ -1,16 +1,47 @@
-# React + Vite
+# 🎵 React Music Player
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+A modern, responsive, and aesthetic web-based music player application. Users can browse a library of songs, play/pause tracks, and skip between songs with a smooth user interface.
 
-Currently, two official plugins are available:
+[🎧 **Live Demo**](https://music-play-err.netlify.app/)
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) (or [oxc](https://oxc.rs) when used in [rolldown-vite](https://vite.dev/guide/rolldown)) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+![Music Player Demo](./screenshot.gif)
+## ✨ Features
 
-## React Compiler
+* **Playback Controls:** Play, Pause, Skip Forward, and Skip Backward.
+* **Song Library:** A toggleable library to select and switch between different tracks.
+* **Real-time Progress Bar:** Visual indicator of song duration and current time (drag to seek).
+* **Responsive UI:** Optimized for both mobile and desktop views.
+* **Auto-Play:** Automatically plays the next song when the current one ends.
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+## 🛠 Built With
 
-## Expanding the ESLint configuration
+* **React** (Functional Components & Hooks)
+* **HTML5 Audio API** (Managed via React Refs)
+* **SASS / CSS3** (For styling and animations)
+* **FontAwesome** (For icons)
+* **UUID** (For unique ID generation)
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+## 🧠 Challenges & Learnings
+
+Building this project improved my understanding of:
+* **`useRef` Hook:** Used to directly reference and control the HTML `<audio>` element for play/pause functionality.
+* **State Lifting:** Managing the current song state in the parent component (`App.js`) to share data between the `Player` and `Library` components.
+* **Synchronizing State:** Keeping the UI (progress bar) in sync with the actual audio current time.
+* **CSS Animations:** Rotating animations for the album art when music is playing.
+
+## 💻 Installation
+
+To run this project locally:
+
+```bash
+# 1. Clone the repository
+git clone [https://github.com/YOUR_USERNAME/music-player.git](https://github.com/YOUR_USERNAME/music-player.git)
+
+# 2. Navigate to the project directory
+cd music-player
+
+# 3. Install dependencies
+npm install
+
+# 4. Start the application
+npm start
